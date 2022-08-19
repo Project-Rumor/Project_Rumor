@@ -1,0 +1,92 @@
+[
+  {
+    "code": "Inter_Gumiho",
+    "type": 1,
+    "range": 2,
+    "value1": 10,
+    "value2": -1,
+    "value3": -1,
+    "value4": -1,
+    "value5": -1
+  },
+  {
+    "code": "Inter_Doggebi",
+    "type": 1,
+    "range": 2,
+    "value1": 10,
+    "value2": -1,
+    "value3": -1,
+    "value4": -1,
+    "value5": -1
+  },
+  {
+    "code": "Inter_Reaper",
+    "type": 1,
+    "range": 2,
+    "value1": 10,
+    "value2": -1,
+    "value3": -1,
+    "value4": -1,
+    "value5": -1
+  },
+  {
+    "code": "Inter_Dark",
+    "type": 1,
+    "range": 2,
+    "value1": 10,
+    "value2": -1,
+    "value3": -1,
+    "value4": -1,
+    "value5": -1
+  },
+  {
+    "code": "Inter_Hete",
+    "type": 1,
+    "range": 2,
+    "value1": 10,
+    "value2": -1,
+    "value3": -1,
+    "value4": -1,
+    "value5": -1
+  },
+  {
+    "code": "Inter_Emugi",
+    "type": 1,
+    "range": 2,
+    "value1": 10,
+    "value2": -1,
+    "value3": -1,
+    "value4": -1,
+    "value5": -1
+  },
+  {
+    "code": "Inter_Salsengbu",
+    "type": 2,
+    "range": 2,
+    "value1": -1,
+    "value2": -1,
+    "value3": -1,
+    "value4": -1,
+    "value5": -1
+  },
+  {
+    "code": "Inter_Bent",
+    "type": 2,
+    "range": 2,
+    "value1": 1,
+    "value2": -1,
+    "value3": -1,
+    "value4": -1,
+    "value5": -1
+  },
+  {
+    "code": "Inter_Present",
+    "type": 2,
+    "range": 2,
+    "value1": 180,
+    "value2": 60,
+    "value3": 120,
+    "value4": -1,
+    "value5": -1
+  }
+]
