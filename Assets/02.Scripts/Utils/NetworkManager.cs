@@ -53,6 +53,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
+        SceneManager.LoadScene("Scene_02_Room");
         Debug.Log("Joined Room");
     }
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -100,8 +101,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
 
         PhotonNetwork.CreateRoom(RoomName, new RoomOptions { MaxPlayers = 6 });
-
-        SceneManager.LoadScene("Scene_02_Room");
     }
 
     public void Button_JoinRoom()
