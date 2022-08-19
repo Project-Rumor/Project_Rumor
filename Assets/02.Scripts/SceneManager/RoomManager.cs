@@ -36,7 +36,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
             //}
         }
 
-        PlayerCntText.text = readyPlayerCnt + " / " + PhotonNetwork.CurrentRoom.PlayerCount;
+        if (PhotonNetwork.InRoom)
+            PlayerCntText.text = readyPlayerCnt + " / " + PhotonNetwork.CurrentRoom.PlayerCount;
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
@@ -62,6 +63,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public void Button_LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene("Scene_01_Lobby_R");
+    }
+
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene("Scene_01_Lobby");
     }
 }
