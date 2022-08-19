@@ -26,14 +26,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         if(PhotonNetwork.IsMasterClient)
         {
-            if(readyPlayerCnt == PhotonNetwork.CurrentRoom.PlayerCount)
-            {
-                StartBtnBlur.SetActive(false);
-            }
-            else
-            {
-                StartBtnBlur.SetActive(true);
-            }
+            //if(readyPlayerCnt == PhotonNetwork.CurrentRoom.PlayerCount)
+            //{
+            //    StartBtnBlur.SetActive(false);
+            //}
+            //else
+            //{
+            //    StartBtnBlur.SetActive(true);
+            //}
         }
 
         PlayerCntText.text = readyPlayerCnt + " / " + PhotonNetwork.CurrentRoom.PlayerCount;
@@ -62,6 +62,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public void Button_LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene("Scene_01_Lobby");
+        SceneManager.LoadScene("Scene_01_Lobby_R");
     }
 }
