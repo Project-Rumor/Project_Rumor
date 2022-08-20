@@ -8,6 +8,8 @@ using TMPro;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.Rendering.LookDev;
 using UnityEngine.UI;
+using UnityEngine.Tilemaps;
+using DG.Tweening;
 
 public class InGameManager : Singleton<InGameManager>
 {
@@ -18,6 +20,12 @@ public class InGameManager : Singleton<InGameManager>
 
     [SerializeField] PhotonView PV;
     [SerializeField] GameObject LightPrefab;
+
+    [SerializeField] GameObject Notice;
+    [SerializeField] GameObject CluePanel;
+    [SerializeField] GameObject Clue;
+    [SerializeField] List<Transform> CluePositions = new List<Transform>();
+    [SerializeField] List<string> CluePositionDescription = new List<string>();
 
     CharacterCtrl MyChar;
     CharacterCtrl Winner;
@@ -41,11 +49,6 @@ public class InGameManager : Singleton<InGameManager>
         }
 
         //printInfoToError();
-    }
-
-    void Update()
-    {
-        
     }
 
     IEnumerator Initialize()
@@ -153,6 +156,40 @@ public class InGameManager : Singleton<InGameManager>
     {
         gameStartPanel.Setup(MyChar.chardata.code);
         skillPanel.Setup(MyChar.chardata.code);
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(RandomTimeClueCreate());
+        }
+    }
+
+    IEnumerator RandomTimeClueCreate()
+    {
+        float currTime = Time.time;
+
+        float respawnMin = TitleData.instance.defineDatas["Room_Min"].value;
+        float respawnMax = TitleData.instance.defineDatas["Room_Max"].value;
+
+        float targetTime = currTime + Random.Range(respawnMin, respawnMax);
+
+        while(Time.time < targetTime)
+        {
+            yield return new WaitForSeconds(1f);
+        }
+
+        int randPosidx = Random.Range(0, CluePositions.Count);
+
+        GameObject c = PhotonNetwork.Instantiate("Clue", CluePositions[randPosidx].position, Quaternion.identity);
+
+        Notice.SetActive(true);
+
+        Notice.GetComponent<TextMeshProUGUI>().text = CluePositionDescription[randPosidx] + "에 단서가 떨어졌습니다.";
+
+        Notice.GetComponent<TextMeshProUGUI>().DOFade(0, 2.0f).SetEase(Ease.Linear).OnComplete(() => {
+            Notice.SetActive(false);
+
+            StartCoroutine(RandomTimeClueCreate());
+        });
     }
 
 
@@ -179,6 +216,16 @@ public class InGameManager : Singleton<InGameManager>
                 GameEnd();
             }
         }
+    }
+
+    public void GetClue(GameObject _clue)
+    {
+        CluePanel.SetActive(true);
+    }
+
+    public void CloseCluePanel()
+    {
+        CluePanel.SetActive(false);
     }
 
     [PunRPC]

@@ -54,6 +54,11 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
             {
                 ActiveSkill();
             }
+
+            if(Input.GetKeyDown(KeyCode.F))
+            {
+                getClue();
+            }
         }
     }
 
@@ -94,6 +99,36 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
                 otherPlayer.GetComponent<CharacterCtrl>().Die();
             }
         }
+    }
+
+    public virtual void getClue()
+    {
+        GameObject clue = GetNearestClue(attackRange);
+
+        if(clue != null)
+        {
+            InGameManager.instance.GetClue(clue);
+        }
+    }
+
+    public virtual GameObject GetNearestClue(float range)
+    {
+        GameObject[] Clues = GameObject.FindGameObjectsWithTag("Clue");
+
+        GameObject nearestClue = null;
+        float minDist = Mathf.Infinity;
+
+        foreach (GameObject c in Clues)
+        {
+            float dist = Vector3.Distance(transform.position, c.transform.position);
+
+            if (dist < minDist && dist < range)
+            {
+                nearestClue = c;
+            }
+        }
+
+        return nearestClue;
     }
 
     public virtual void PassiveSkill()
