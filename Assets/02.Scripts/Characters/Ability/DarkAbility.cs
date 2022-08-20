@@ -8,13 +8,14 @@ public class DarkAbility : Ability
 {
     public override void Active()
     {
-        CC.PV.RPC("DecreseSight", RpcTarget.AllBuffered);
+        Debug.Log("Dark!");
+        CC.PV.RPC("DecreseSight", RpcTarget.OthersBuffered);
     }
 
     [PunRPC]
     public void DecreseSight()
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("player");
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         
         foreach(GameObject player in players)
         {

@@ -139,7 +139,7 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
 
     public virtual void ActiveSkill()
     {
-        //GetComponent<Ability>().Active();
+        GetComponent<Ability>().Active();
     }
 
     public virtual void Die()
