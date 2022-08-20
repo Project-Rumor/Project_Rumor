@@ -25,6 +25,11 @@ public class SoundManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
+    void Start()
+    {
+        PlayBGM("Lobby");
+    }
+
     public void PlayBGM(string bgmName)
     {
         for (int i = 0; i < bgm.Length; i++)

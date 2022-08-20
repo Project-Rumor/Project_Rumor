@@ -24,8 +24,11 @@ public class GameStartPanel : MonoBehaviour
                 this.gameObject.SetActive(false);
                 inGameUICtrl.inGameUIState = InGameUIState.Play;
             });
+        SoundManager.instance.PlaySFX("GameStart");
         NameTextPanel.GetComponent<Image>().DOFade(0, 1.5f).SetEase(Ease.Linear).SetDelay(TitleData.instance.defineDatas["Info_Show_Time"].value);
         NameText.DOFade(0, 1.5f).SetEase(Ease.Linear).SetDelay(TitleData.instance.defineDatas["Info_Show_Time"].value);
         CharImage.DOFade(0, 1.5f).SetEase(Ease.Linear).SetDelay(TitleData.instance.defineDatas["Info_Show_Time"].value);
+
+        SoundManager.instance.PlayBGM("InGame");
     }
 }

@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.Linq;
-using System.Threading;
 using TMPro;
-using UnityEngine.Experimental.Rendering.Universal;
-using UnityEngine.Rendering.LookDev;
 using UnityEngine.UI;
-using UnityEngine.Tilemaps;
 using DG.Tweening;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class InGameManager : Singleton<InGameManager>
 {
@@ -39,15 +36,16 @@ public class InGameManager : Singleton<InGameManager>
 
     void Start()
     {
+        SoundManager.instance.StopBGM();
+
         MyChar = createPlayer.Create(PhotonNetwork.LocalPlayer.ActorNumber);
 
-        MyChar.Sight = Instantiate(LightPrefab, MyChar.gameObject.transform).GetComponent<Light2D>();
+        MyChar.Sight = Instantiate(LightPrefab, MyChar.gameObject.transform).transform.GetChild(0).GetComponent<Light2D>();
 
         if (PhotonNetwork.IsMasterClient)
         {
             StartCoroutine(Initialize());
         }
-
         //printInfoToError();
     }
 
@@ -200,6 +198,9 @@ public class InGameManager : Singleton<InGameManager>
         gameEndPanel.SetActive(true);
         gameEndPanel.transform.GetChild(0).GetComponent<Text>().text = Winner.gameObject.transform.GetChild(1).GetChild(0)
                                                                         .GetComponent<TextMeshProUGUI>().text + " Win!!";
+
+        SoundManager.instance.StopBGM();
+        SoundManager.instance.PlaySFX("Win");
         // game end panel
     }
 
