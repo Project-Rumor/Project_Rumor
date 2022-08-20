@@ -6,11 +6,13 @@ using System.Linq;
 using System.Threading;
 using TMPro;
 using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.Rendering.LookDev;
 
 public class InGameManager : MonoBehaviour
 {
     [SerializeField] CreatePlayer createPlayer;
     [SerializeField] GameStartPanel gameStartPanel;
+    [SerializeField] GameObject gameEndPanel;
     [SerializeField] SkillPanel skillPanel;
 
     [SerializeField] PhotonView PV;
@@ -37,6 +39,11 @@ public class InGameManager : MonoBehaviour
         }
 
         //printInfoToError();
+    }
+
+    void Update()
+    {
+        
     }
 
     IEnumerator Initialize()
@@ -144,5 +151,36 @@ public class InGameManager : MonoBehaviour
     {
         gameStartPanel.Setup(MyChar.chardata.code);
         skillPanel.Setup(MyChar.chardata.code);
+    }
+
+
+    [PunRPC]
+    public void GameEnd()
+    {
+        gameEndPanel.SetActive(true);
+        // game end panel
+    }
+
+
+    [PunRPC]
+    public void CycleUpdate(string deadPlayerSpirit)
+    {
+        Cycle.Remove(deadPlayerSpirit);
+
+        for(int i = 0; i < Cycle.Count; i++)
+        {
+            if (Cycle[i].Equals(MyChar.chardata.code))
+            {
+                if (i == Cycle.Count - 1)
+                    MyChar.target = Cycle[0];
+                else
+                    MyChar.target = Cycle[i + 1];
+            }
+        }    
+    }
+
+    public void Button_toRoom()
+    {
+        PhotonNetwork.LoadLevel(2);
     }
 }
