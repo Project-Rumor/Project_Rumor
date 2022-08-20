@@ -1,18 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Realtime;
+using Photon.Pun;
 
-public class DarkAbility : MonoBehaviour
+public class DarkAbility : Ability
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Active()
     {
-        
+        CC.PV.RPC("DecreseSight", RpcTarget.AllBuffered);
     }
 
-    // Update is called once per frame
-    void Update()
+    [PunRPC]
+    public void DecreseSight()
     {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("player");
         
+        foreach(GameObject player in players)
+        {
+            CharacterCtrl TempCC = player.GetComponent<CharacterCtrl>();
+
+            if (TempCC == CC)
+                continue;
+            else
+            {
+                CC.StartCoroutine(CC.SightChange(CC.chardata.skillvalue1, CC.chardata.skillvalue2));
+            }
+        }
     }
 }

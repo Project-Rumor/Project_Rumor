@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ReaperAbility : Ability
 {
-    public override void Active()
+    public void ReaperPassive()
     {
         CC.moveSpeed += CC.chardata.skillvalue1;
-        // 시야
+        CC.Sight.intensity += CC.chardata.skillvalue2;
         CC.attackRange += CC.chardata.skillvalue3;
     }
 }

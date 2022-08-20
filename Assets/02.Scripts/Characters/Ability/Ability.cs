@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Ability : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+public class Ability : MonoBehaviourPunCallbacks
 {
     string abilityName = "";
     string abilityDescription = "";

@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EmugiAbility : MonoBehaviour
+public class EmugiAbility : Ability
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Active()
     {
-        
+        StartCoroutine(GhostMode());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator GhostMode()
     {
-        
+        GetComponent<BoxCollider2D>().isTrigger = true;
+        CC.StartCoroutine(CC.MoveSpeedChange(CC.chardata.skillvalue1, CC.chardata.skillvalue2));
+
+        yield return new WaitForSeconds(CC.chardata.skillvalue1);
+
+        GetComponent<BoxCollider2D>().isTrigger = false;
     }
 }

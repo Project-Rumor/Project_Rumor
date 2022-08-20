@@ -24,6 +24,7 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
     public Animator ColorAnim;
 
     public float attackRange = 5.0f;
+    int reverse = 1;
 
     protected virtual void Start()
     {
@@ -67,7 +68,7 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
         hAxis = Input.GetAxisRaw("Horizontal");
         vAxis = Input.GetAxisRaw("Vertical");
 
-        transform.Translate(new Vector3(hAxis * Time.deltaTime * moveSpeed, vAxis * Time.deltaTime * moveSpeed, 0));
+        transform.Translate(new Vector3(hAxis * Time.deltaTime * moveSpeed * reverse, vAxis * Time.deltaTime * moveSpeed * reverse, 0));
 
         if (hAxis != 0)
         {
@@ -184,7 +185,7 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
         return nearestPlayer;
     }
 
-    IEnumerator MoveSpeedChange(float time, float value)
+    public IEnumerator MoveSpeedChange(float time, float value)
     {
         moveSpeed += value;
 
@@ -193,7 +194,7 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
         moveSpeed -= value;
     }
 
-    IEnumerator SightChange(float time, float value)
+    public IEnumerator SightChange(float time, float value)
     {
         Sight.intensity += value;
 
