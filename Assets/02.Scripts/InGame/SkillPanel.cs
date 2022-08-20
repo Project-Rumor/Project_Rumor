@@ -15,7 +15,7 @@ public class SkillPanel : MonoBehaviour
 
     public void Setup(string _code)
     {
-        //skillCooltime = TitleData.instance.charDatas[_code].cooltime;
+        skillCooltime = TitleData.instance.charDatas[_code].ability;
         killCooltime = TitleData.instance.charDatas[_code].cooltime;
 
         tempSkillCool = skillCooltime;
@@ -29,25 +29,29 @@ public class SkillPanel : MonoBehaviour
     }
 
     [ContextMenu("Skill")]
-    public void SkillAction()
+    public bool SkillAction()
     {
         if (tempSkillCool > 0)
-            return;
+            return false;
 
         tempSkillCool = skillCooltime;
         SkillFillImage.fillAmount = 1 - (tempSkillCool / skillCooltime);
         SkillCoolText.text = tempSkillCool.ToString("N0");
+
+        return true;
     }
 
     [ContextMenu("Kill")]
-    public void KillAction()
+    public bool KillAction()
     {
         if (tempKillCool > 0)
-            return;
+            return false;
 
         tempKillCool = killCooltime;
         KillFillImage.fillAmount = 1 - (tempKillCool / killCooltime);
         KillCoolText.text = tempKillCool.ToString("N0");
+
+        return true;
     }
 
     void Update()

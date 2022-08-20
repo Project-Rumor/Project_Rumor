@@ -7,9 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class TitleManager : MonoBehaviourPunCallbacks
 {
+    [SerializeField] Image LogoImage;
     [SerializeField] InputField nickInput;
     [SerializeField] Button enterButton;
-    [SerializeField] GameObject loadingImage;
 
     void Awake()
     {
@@ -31,9 +31,8 @@ public class TitleManager : MonoBehaviourPunCallbacks
             EnterBtnEvent();
         });
 
-        loadingImage.SetActive(false);
-        Color color = new Color(255f, 255f, 255f, 0f) / 255f;
-        loadingImage.GetComponent<Image>().color = color;
+        LogoImage.transform.DOScale(new Vector2(0.5f, 0.5f), 4f).From().SetEase(Ease.OutBack);
+        LogoImage.DOFade(1f, 5f).SetEase(Ease.Linear);
     }
 
     public void EnterBtnEvent()
@@ -44,9 +43,6 @@ public class TitleManager : MonoBehaviourPunCallbacks
 
             return;
         }
-
-        loadingImage.SetActive(true);
-        loadingImage.GetComponent<Image>().DOFade(1f, 1f).SetEase(Ease.OutQuad).SetLoops(-1, LoopType.Yoyo);
 
         PhotonNetwork.ConnectUsingSettings();
     }

@@ -4,6 +4,7 @@ using DG.Tweening;
 
 public class GameStartPanel : MonoBehaviour
 {
+    [SerializeField] GameObject NameTextPanel;
     [SerializeField] Text NameText;
     [SerializeField] Image CharImage;
 
@@ -11,7 +12,8 @@ public class GameStartPanel : MonoBehaviour
 
     public void Setup(string _code)
     {
-        this.gameObject.SetActive(true);
+        NameTextPanel.gameObject.SetActive(true);
+        CharImage.gameObject.SetActive(true);
 
         NameText.text = TitleData.instance.charDatas[_code].name;
         CharImage.sprite = Resources.Load<Sprite>(TitleData.instance.charDatas[_code].resource);
@@ -22,6 +24,7 @@ public class GameStartPanel : MonoBehaviour
                 this.gameObject.SetActive(false);
                 inGameUICtrl.inGameUIState = InGameUIState.Play;
             });
+        NameTextPanel.GetComponent<Image>().DOFade(0, 1.5f).SetEase(Ease.Linear).SetDelay(TitleData.instance.defineDatas["Info_Show_Time"].value);
         NameText.DOFade(0, 1.5f).SetEase(Ease.Linear).SetDelay(TitleData.instance.defineDatas["Info_Show_Time"].value);
         CharImage.DOFade(0, 1.5f).SetEase(Ease.Linear).SetDelay(TitleData.instance.defineDatas["Info_Show_Time"].value);
     }

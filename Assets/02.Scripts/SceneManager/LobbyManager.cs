@@ -121,8 +121,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             JoinSelectRoom(index);
         });
 
-        trans.GetChild(0).GetComponent<Text>().text = myRoomList[index].Name;
-        trans.GetChild(1).GetComponent<Text>().text = myRoomList[index].PlayerCount + "/" + myRoomList[index].MaxPlayers;
+        trans.GetChild(1).GetChild(1).GetComponent<Text>().text = myRoomList[index].Name;
+        trans.GetChild(2).GetComponent<Text>().text = myRoomList[index].PlayerCount + "/" + myRoomList[index].MaxPlayers;
+        trans.GetChild(3).GetComponent<Text>().text = "서늘한 광장 언덕";
 
         trans.gameObject.SetActive(true);
     }
