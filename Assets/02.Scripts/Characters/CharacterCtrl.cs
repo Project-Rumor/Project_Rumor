@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class CharacterCtrl : MonoBehaviourPunCallbacks
 {
@@ -10,6 +11,8 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
     float moveSpeed = 10.0f;
     float hAxis = 0.0f;
     float vAxis = 0.0f;
+
+    public Light2D Sight; 
 
     public CharData chardata;
     public string target;
@@ -132,5 +135,23 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
         }
 
         return nearestPlayer;
+    }
+
+    IEnumerator MoveSpeedChange(float time, float value)
+    {
+        moveSpeed += value;
+
+        yield return new WaitForSeconds(time);
+
+        moveSpeed -= value;
+    }
+
+    IEnumerator SightChange(float time, float value)
+    {
+        Sight.intensity += value;
+
+        yield return new WaitForSeconds(time);
+
+        Sight.intensity -= value;
     }
 }

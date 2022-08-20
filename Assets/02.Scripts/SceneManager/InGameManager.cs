@@ -4,16 +4,17 @@ using UnityEngine;
 using Photon.Pun;
 using System.Linq;
 using System.Threading;
+using TMPro;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class InGameManager : MonoBehaviour
 {
     [SerializeField] CreatePlayer createPlayer;
     [SerializeField] GameStartPanel gameStartPanel;
     [SerializeField] PhotonView PV;
+    [SerializeField] GameObject LightPrefab;
 
     CharacterCtrl MyChar;
-
-    int waitPlayerCnt;
 
     List<string> charCodeList = new List<string>();
     List<CharacterCtrl> AllPlayers = new List<CharacterCtrl>();
@@ -24,10 +25,9 @@ public class InGameManager : MonoBehaviour
 
     void Start()
     {
-        waitPlayerCnt = 0;
         MyChar = createPlayer.Create();
 
-        PV.RPC("CharCreated", RpcTarget.MasterClient);
+        MyChar.Sight = Instantiate(LightPrefab, MyChar.gameObject.transform).GetComponent<Light2D>();
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -67,6 +67,8 @@ public class InGameManager : MonoBehaviour
             int PhotonViewID = AllPlayers[i].photonView.ViewID;
 
             PV.RPC("InitializeChar", RpcTarget.AllBuffered, PhotonViewID, charCodeList[i]);
+
+            PV.RPC("InitializeName", RpcTarget.AllBuffered, PhotonViewID, i);
         }
     }
 
@@ -120,13 +122,6 @@ public class InGameManager : MonoBehaviour
     }
 
     [PunRPC]
-    public void CharCreated()
-    {
-        if (PhotonNetwork.IsMasterClient)
-            waitPlayerCnt++;
-    }
-
-    [PunRPC]
     public void InitializeChar(int viewID, string _code)
     {
         PhotonView.Find(viewID).GetComponent<CharacterCtrl>().Setup(_code);
@@ -134,5 +129,11 @@ public class InGameManager : MonoBehaviour
         int idx = Cycle.FindIndex(x => x == _code);
 
         PhotonView.Find(viewID).GetComponent<CharacterCtrl>().target = idx == PhotonNetwork.CurrentRoom.PlayerCount - 1 ? Cycle[0] : Cycle[idx + 1];
+    }
+
+    [PunRPC]
+    public void InitializeName(int viewID, int playerIndex)
+    {
+        PhotonView.Find(viewID).gameObject.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = PhotonNetwork.PlayerList[playerIndex].NickName;
     }
 }
