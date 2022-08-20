@@ -10,7 +10,6 @@ using UnityEngine.Diagnostics;
 public class RoomManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] Text PlayerCntText;
-    [SerializeField] GameObject StartBtnBlur;
     [SerializeField] Text ReadyOrStartText;
     [SerializeField] PhotonView PV;
 
@@ -45,11 +44,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             if (readyPlayerCnt == PhotonNetwork.CurrentRoom.PlayerCount)
             {
-                StartBtnBlur.SetActive(false);
+                ReadyOrStartText.GetComponentInParent<Button>().interactable = true;
             }
             else
             {
-                StartBtnBlur.SetActive(true);
+                ReadyOrStartText.GetComponentInParent<Button>().interactable = false;
             }
         }
 
