@@ -6,15 +6,9 @@ using Photon.Realtime;
 
 public class CreatePlayer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Setup(string _code)
     {
-        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameObject inst = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        inst.GetComponent<CharacterCtrl>().Setup(_code);
     }
 }

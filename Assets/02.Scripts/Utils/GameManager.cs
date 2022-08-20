@@ -4,7 +4,7 @@ using Boo.Lang;
 using System;
 using System.Linq;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : MonoBehaviour
 {
     public string[] SpiritNames = { "Gumiho", "Doggabi", "Reaper", "Dark", "Dungapjwi", "Emugi" };
 

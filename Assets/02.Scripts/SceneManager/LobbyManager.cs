@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
-using UnityEngine.SceneManagement;
 using Photon.Realtime;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
@@ -16,13 +15,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] Button createRoomButton;
     [SerializeField] InputField createRoomNameInput;
     [SerializeField] Button joinRoomRandomButton;
+    [SerializeField] Button disconnectButton;
 
     void Start()
     {
-        //버그
-        if (!PhotonNetwork.InLobby)
-            PhotonNetwork.JoinLobby();
-
         Setup();
     }
 
@@ -40,6 +36,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             JoinRandomRoomBtnEvent();
         });
 
+        disconnectButton.onClick.AddListener(() =>
+        {
+            PhotonNetwork.Disconnect();
+        });
+
         for (int i = 0; i < 10; i++)
         {
             GameObject Inst = Instantiate(roomPrefab.gameObject, roomContent);
@@ -54,6 +55,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             Debug.LogWarning("Null RoomName");
             return;
         }
+        if (createRoomNameInput.text.Length >= 10)
+        {
+            Debug.LogWarning("Long RoomName");
+            return;
+        }
 
         PhotonNetwork.CreateRoom(createRoomNameInput.text, new RoomOptions { MaxPlayers = 6 });
     }
@@ -62,16 +68,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.JoinRandomRoom();
     }
-
-    //public void Button_JoinRoom()
-    //{
-    //    PhotonNetwork.JoinOrCreateRoom(InputField_RoomName.text, new RoomOptions { MaxPlayers = 6 }, null);
-    //}
-
-    //public void Button_JoinRoomRandom()
-    //{
-    //    PhotonNetwork.JoinRandomRoom();
-    //}
 
     void JoinSelectRoom(int _idx)
     {
@@ -128,6 +124,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     //Photon Override
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        NetworkManager.instance.MoveScene(0);
+    }
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         int roomCnt = roomList.Count;

@@ -20,12 +20,15 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
 
     protected virtual void Start()
     {
-        //chardata = TitleData.instance.charDatas["Char_Gumiho"];
-
         //moveSpeed = chardata.speed;
 
         PV = GetComponent<PhotonView>();
         SR = GetComponent<SpriteRenderer>();
+    }
+
+    public void Setup(string _code)
+    {
+        chardata = TitleData.instance.charDatas[_code];
     }
 
     protected virtual void Update()
