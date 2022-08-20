@@ -42,6 +42,7 @@ MonoBehaviour:
   - GameStart
   - FilpXRPC
   - DestroyPlayer
+  - ReadyStatusChange
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

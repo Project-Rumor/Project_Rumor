@@ -15,6 +15,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [Header("Button")]
     [SerializeField] Button createRoomButton;
     [SerializeField] InputField createRoomNameInput;
+    [SerializeField] Button joinRoomRandomButton;
 
     void Start()
     {
@@ -32,6 +33,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         createRoomButton.onClick.AddListener(() =>
         {
             CreateRoomBtnEvent();
+        });
+
+        joinRoomRandomButton.onClick.AddListener(() =>
+        {
+            JoinRandomRoomBtnEvent();
         });
 
         for (int i = 0; i < 10; i++)
@@ -54,7 +60,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void JoinRandomRoomBtnEvent()
     {
-
+        PhotonNetwork.JoinRandomRoom();
     }
 
     //public void Button_JoinRoom()
@@ -149,7 +155,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        SceneManager.LoadScene("Scene_02_Room");
+        NetworkManager.instance.MoveScene(2);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

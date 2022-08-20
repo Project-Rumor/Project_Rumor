@@ -69,6 +69,6 @@ public class TitleManager : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(3f);
 
-        SceneManager.LoadScene("Scene_01_Lobby");
+        NetworkManager.instance.MoveScene(1);
     }
 }

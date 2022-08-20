@@ -12,10 +12,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] Text PlayerCntText;
     [SerializeField] GameObject StartBtnBlur;
     [SerializeField] Text ReadyOrStartText;
+    [SerializeField] PhotonView PV;
 
     int readyPlayerCnt;
     bool isready;
-
     ExitGames.Client.Photon.Hashtable playerCustomProperities = new ExitGames.Client.Photon.Hashtable();
 
     // Start is called before the first frame update
@@ -43,14 +43,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         if(PhotonNetwork.IsMasterClient)
         {
-            //if(readyPlayerCnt == PhotonNetwork.CurrentRoom.PlayerCount)
-            //{
-            //    StartBtnBlur.SetActive(false);
-            //}
-            //else
-            //{
-            //    StartBtnBlur.SetActive(true);
-            //}
+            if (readyPlayerCnt == PhotonNetwork.CurrentRoom.PlayerCount)
+            {
+                StartBtnBlur.SetActive(false);
+            }
+            else
+            {
+                StartBtnBlur.SetActive(true);
+            }
         }
 
         if (PhotonNetwork.InRoom)
@@ -75,18 +75,34 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     public void Button_ReadyOrStart()
     {
+        Debug.Log("Button Pushed");
+
         if (PhotonNetwork.IsMasterClient)
         {
             if (readyPlayerCnt == PhotonNetwork.CurrentRoom.PlayerCount)
             {
-                SceneManager.LoadScene("Scene_03_Game");
+                NetworkManager.instance.MoveScene(3);
             }
         }
         else
         {
             isready = !isready;
 
-            playerCustomProperities["PlayerReady"] = isready;
+            PV.RPC("ReadyStatusChange", RpcTarget.AllBuffered, isready);
+        }
+    }
+
+    [PunRPC]
+    public void ReadyStatusChange(bool readyStatus)
+    {
+        Debug.Log("Recived RPC");
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            if (readyStatus)
+                readyPlayerCnt++;
+            else
+                readyPlayerCnt--;
         }
     }
 
