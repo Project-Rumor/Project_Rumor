@@ -5,10 +5,12 @@ using Photon.Pun;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
+using DG.Tweening;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField] Text PlayerCntText;
+    [SerializeField] Transform RoomNameTrans;
+    [SerializeField] Transform PlayerCntTrans;
     [SerializeField] Button ReadyOrStartButton;
     [SerializeField] PhotonView PV;
 
@@ -22,6 +24,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
         readyPlayerCnt = 1;
         isready = false;
 
+        RoomNameTrans.GetComponentInChildren<Text>().text = PhotonNetwork.CurrentRoom.Name;
+
         if (PhotonNetwork.IsMasterClient)
         {
             ReadyOrStartButton.GetComponentInChildren<Text>().text = "게임 시작";
@@ -34,6 +38,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
 
         PhotonNetwork.SetPlayerCustomProperties(playerCustomProperities);
+
+        StartEff();
+    }
+
+    void StartEff()
+    {
+        RoomNameTrans.GetComponent<RectTransform>().DOAnchorPosY(80f, 1f).From().SetEase(Ease.OutBack);
+        PlayerCntTrans.GetComponent<RectTransform>().DOAnchorPosY(1000, 2f).From().SetEase(Ease.OutBack);
     }
 
     // Update is called once per frame
@@ -54,7 +66,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
 
         if (PhotonNetwork.InRoom)
-            PlayerCntText.text = readyPlayerCnt + " / " + PhotonNetwork.CurrentRoom.PlayerCount;
+            PlayerCntTrans.GetComponentInChildren<Text>().text = readyPlayerCnt + " / " + PhotonNetwork.CurrentRoom.PlayerCount;
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)

@@ -63,7 +63,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         RoomListTrans.GetComponent<RectTransform>().DOAnchorPosX(200, 2f).From().SetEase(Ease.OutQuad);
         LogoImage.GetComponent<RectTransform>().DOAnchorPosX(200, 2f).From().SetEase(Ease.OutQuad);
-        disconnectButton.GetComponent<RectTransform>().DOAnchorPosX(0, 2f).From().SetEase(Ease.OutQuad);
+        disconnectButton.GetComponent<RectTransform>().DOAnchorPosX(0, 1.5f).From().SetEase(Ease.OutQuad);
         ButtonsTrans.GetComponent<RectTransform>().DOAnchorPosY(-350, 2f).From().SetEase(Ease.OutQuad);
     }
 
