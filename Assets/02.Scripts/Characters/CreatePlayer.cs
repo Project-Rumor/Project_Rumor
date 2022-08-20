@@ -6,8 +6,8 @@ using Photon.Realtime;
 
 public class CreatePlayer : MonoBehaviour
 {
-    public CharacterCtrl Create()
+    public CharacterCtrl Create(int playerNumber)
     {
-        return PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity).GetComponent<CharacterCtrl>();
+        return PhotonNetwork.Instantiate("Player" + playerNumber.ToString(), Vector3.zero, Quaternion.identity).GetComponent<CharacterCtrl>();
     }
 }

@@ -39,7 +39,7 @@ public class InGameManager : Singleton<InGameManager>
 
     void Start()
     {
-        MyChar = createPlayer.Create();
+        MyChar = createPlayer.Create(PhotonNetwork.LocalPlayer.ActorNumber);
 
         MyChar.Sight = Instantiate(LightPrefab, MyChar.gameObject.transform).GetComponent<Light2D>();
 
@@ -126,6 +126,7 @@ public class InGameManager : Singleton<InGameManager>
             spirtsTmp.Add(cycle);
         }
 
+
         CycleTmp = spirtsTmp;
     }
 
@@ -159,7 +160,7 @@ public class InGameManager : Singleton<InGameManager>
 
         if(PhotonNetwork.IsMasterClient)
         {
-            StartCoroutine(RandomTimeClueCreate());
+            //StartCoroutine(RandomTimeClueCreate());
         }
     }
 
