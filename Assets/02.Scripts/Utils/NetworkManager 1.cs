@@ -6,7 +6,7 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class NetworkManager : MonoBehaviourPunCallbacks
+public class NetworkManager1 : MonoBehaviourPunCallbacks
 {
     #region Variables & setup
 
@@ -22,6 +22,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.AutomaticallySyncScene = true;
+
+        DontDestroyOnLoad(this.gameObject);
     }
     #endregion
 
@@ -53,6 +55,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
+        SceneManager.LoadScene("Scene_02_Room");
         Debug.Log("Joined Room");
     }
     public override void OnCreateRoomFailed(short returnCode, string message)
