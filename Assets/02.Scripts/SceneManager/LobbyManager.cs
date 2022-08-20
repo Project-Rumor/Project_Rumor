@@ -3,15 +3,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using DG.Tweening;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
+    [SerializeField] Image LogoImage;
+
     [Header("Room")]
+    [SerializeField] Transform RoomListTrans;
     [SerializeField] Button roomPrefab;
     [SerializeField] Transform roomContent;
     List<RoomInfo> myRoomList = new List<RoomInfo>();
 
     [Header("Button")]
+    [SerializeField] Transform ButtonsTrans;
     [SerializeField] Button createRoomButton;
     [SerializeField] InputField createRoomNameInput;
     [SerializeField] Button joinRoomRandomButton;
@@ -19,6 +24,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        StartEff();
+
         if (GameData.instance.isTitle)
         {
             PhotonNetwork.JoinLobby();
@@ -50,6 +57,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             GameObject Inst = Instantiate(roomPrefab.gameObject, roomContent);
             Inst.SetActive(false);
         }
+    }
+
+    void StartEff()
+    {
+        RoomListTrans.GetComponent<RectTransform>().DOAnchorPosX(200, 2f).From().SetEase(Ease.OutQuad);
+        LogoImage.GetComponent<RectTransform>().DOAnchorPosX(200, 2f).From().SetEase(Ease.OutQuad);
+        disconnectButton.GetComponent<RectTransform>().DOAnchorPosX(0, 2f).From().SetEase(Ease.OutQuad);
+        ButtonsTrans.GetComponent<RectTransform>().DOAnchorPosY(-350, 2f).From().SetEase(Ease.OutQuad);
     }
 
     void CreateRoomBtnEvent()

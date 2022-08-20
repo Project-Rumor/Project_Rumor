@@ -31,7 +31,10 @@ public class TitleManager : MonoBehaviourPunCallbacks
             EnterBtnEvent();
         });
 
-        LogoImage.transform.DOScale(new Vector2(0.5f, 0.5f), 4f).From().SetEase(Ease.OutBack);
+        LogoImage.transform.DOScale(new Vector2(0.6f, 0.6f), 5f).From().SetEase(Ease.OutQuart).OnComplete(() =>
+        {
+            LogoImage.transform.DOScale(new Vector2(0.92f, 0.92f), 4f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+        });
         LogoImage.DOFade(1f, 5f).SetEase(Ease.Linear);
     }
 
@@ -52,8 +55,9 @@ public class TitleManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LocalPlayer.NickName = nickInput.text;
 
+        Eff();
         //PhotonNetwork.JoinLobby();
-        StartCoroutine("LoadingCo");
+        //StartCoroutine("LoadingCo");
     }
 
     //public override void OnJoinedLobby()
@@ -62,12 +66,25 @@ public class TitleManager : MonoBehaviourPunCallbacks
     //}
     //
 
-    IEnumerator LoadingCo()
+    void Eff()
     {
         GameData.instance.isTitle = true;
 
-        yield return new WaitForSeconds(1f);
+        LogoImage.DOFade(0, 2f).SetEase(Ease.OutQuad);
 
-        NetworkManager.instance.MoveScene(1);
+        nickInput.image.DOFade(0, 2f).SetEase(Ease.OutQuad);
+        nickInput.transform.GetChild(0).GetComponent<Image>().DOFade(0, 2f).SetEase(Ease.OutQuad);
+        nickInput.transform.GetChild(1).GetComponent<Text>().DOFade(0, 2f).SetEase(Ease.OutQuad);
+        nickInput.transform.GetChild(2).GetComponent<Text>().DOFade(0, 2f).SetEase(Ease.OutQuad);
+
+        enterButton.image.DOFade(0, 2f).SetEase(Ease.OutQuad);
+        enterButton.transform.GetChild(0).GetComponent<Image>().DOFade(0, 2f).SetEase(Ease.OutQuad);
+        enterButton.transform.GetChild(1).GetComponent<Text>().DOFade(0, 2f).SetEase(Ease.OutQuad);
+
+        nickInput.transform.DOLocalMoveY(0, 2f).SetEase(Ease.OutQuad);
+        enterButton.transform.DOLocalMoveY(0, 2f).SetEase(Ease.OutQuad).OnComplete(() =>
+        {
+            NetworkManager.instance.MoveScene(1);
+        });
     }
 }

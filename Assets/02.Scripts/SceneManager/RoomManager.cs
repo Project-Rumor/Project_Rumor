@@ -5,12 +5,11 @@ using Photon.Pun;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
-using UnityEngine.Diagnostics;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] Text PlayerCntText;
-    [SerializeField] Text ReadyOrStartText;
+    [SerializeField] Button ReadyOrStartButton;
     [SerializeField] PhotonView PV;
 
     int readyPlayerCnt;
@@ -25,11 +24,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
-            ReadyOrStartText.text = "Start";
+            ReadyOrStartButton.GetComponentInChildren<Text>().text = "게임 시작";
         }
         else
         {
-            ReadyOrStartText.text = "Ready";
+            ReadyOrStartButton.GetComponentInChildren<Text>().text = "게임 준비";
         }
 
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -44,11 +43,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             if (readyPlayerCnt == PhotonNetwork.CurrentRoom.PlayerCount)
             {
-                ReadyOrStartText.GetComponentInParent<Button>().interactable = true;
+                ReadyOrStartButton.interactable = true;
+                ReadyOrStartButton.GetComponentInChildren<Animator>().SetBool("isActive", true);
             }
             else
             {
-                ReadyOrStartText.GetComponentInParent<Button>().interactable = false;
+                ReadyOrStartButton.interactable = false;
+                ReadyOrStartButton.GetComponentInChildren<Animator>().SetBool("isActive", false);
             }
         }
 
