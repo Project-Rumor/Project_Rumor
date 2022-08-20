@@ -31,11 +31,7 @@ public class TitleManager : MonoBehaviourPunCallbacks
             EnterBtnEvent();
         });
 
-        LogoImage.transform.DOScale(new Vector2(0.6f, 0.6f), 5f).From().SetEase(Ease.OutQuart).OnComplete(() =>
-        {
-            LogoImage.transform.DOScale(new Vector2(0.92f, 0.92f), 4f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
-        });
-        LogoImage.DOFade(1f, 5f).SetEase(Ease.Linear);
+        LogoImage.DOFade(1f, 6.5f).SetEase(Ease.InQuad);
     }
 
     public void EnterBtnEvent()

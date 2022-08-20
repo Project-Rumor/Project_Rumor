@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using DG.Tweening;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
@@ -93,6 +94,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             if (readyPlayerCnt == PhotonNetwork.CurrentRoom.PlayerCount)
             {
+                //Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+                //hash["isPlay"] = true;
                 NetworkManager.instance.MoveScene(3);
             }
         }

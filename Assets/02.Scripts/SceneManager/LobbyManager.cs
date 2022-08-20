@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using DG.Tweening;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -80,7 +81,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        PhotonNetwork.CreateRoom(createRoomNameInput.text, new RoomOptions { MaxPlayers = 6 });
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 6;
+        roomOptions.CustomRoomProperties = new Hashtable() { { "isPlay", false } };
+
+        PhotonNetwork.CreateRoom(createRoomNameInput.text, roomOptions, null);
     }
 
     void JoinRandomRoomBtnEvent()
@@ -164,6 +169,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         int roomCnt = roomList.Count;
         for (int i = 0; i < roomCnt; i++)
         {
+            //Hashtable hash = roomList[i].CustomProperties;
+            //if ((bool)hash["isPlay"])
+            //    continue;
+
             if (!roomList[i].RemovedFromList)
             {
                 if (!myRoomList.Contains(roomList[i]))
