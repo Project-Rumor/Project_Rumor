@@ -6,13 +6,8 @@ using Photon.Realtime;
 
 public class CreatePlayer : MonoBehaviour
 {
-    public void Start()
+    public CharacterCtrl Create()
     {
-        GameObject inst = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
-    }
-    public void Setup(string _code)
-    {
-        GameObject inst = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
-        inst.GetComponent<CharacterCtrl>().Setup(_code);
+        return PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity).GetComponent<CharacterCtrl>();
     }
 }

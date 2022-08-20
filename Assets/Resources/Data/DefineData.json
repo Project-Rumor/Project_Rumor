@@ -6,5 +6,9 @@
   {
     "code": "Room_Max",
     "value": 6
+  },
+  {
+    "code": "Info_Show_Time",
+    "value": 3
   }
 ]
