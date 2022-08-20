@@ -11,7 +11,8 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
     float hAxis = 0.0f;
     float vAxis = 0.0f;
 
-    CharData chardata;
+    public CharData chardata;
+    public string target;
 
     public PhotonView PV;
     public SpriteRenderer SR;

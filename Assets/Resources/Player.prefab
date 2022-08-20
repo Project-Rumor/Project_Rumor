@@ -323,6 +323,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
+  chardata:
+    code: 
+    speed: 0
+    cooltime: 0
+    sight: 0
+    range: 0
+    ability: 0
+    resource: 
+    skillvalue1: 0
+    skillvalue2: 0
+    skillvalue3: 0
+    skillvalue4: 0
+    skillvalue5: 0
+  target: 
   PV: {fileID: 0}
   SR: {fileID: 0}
   CSR: {fileID: 1846049509340560061}
