@@ -6,17 +6,21 @@ using System.Linq;
 using System.Threading;
 using TMPro;
 using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.Rendering.LookDev;
+using UnityEngine.UI;
 
-public class InGameManager : MonoBehaviour
+public class InGameManager : Singleton<InGameManager>
 {
     [SerializeField] CreatePlayer createPlayer;
     [SerializeField] GameStartPanel gameStartPanel;
+    [SerializeField] GameObject gameEndPanel;
     [SerializeField] SkillPanel skillPanel;
 
     [SerializeField] PhotonView PV;
     [SerializeField] GameObject LightPrefab;
 
     CharacterCtrl MyChar;
+    CharacterCtrl Winner;
 
     List<string> charCodeList = new List<string>();
     List<CharacterCtrl> AllPlayers = new List<CharacterCtrl>();
@@ -37,6 +41,11 @@ public class InGameManager : MonoBehaviour
         }
 
         //printInfoToError();
+    }
+
+    void Update()
+    {
+        
     }
 
     IEnumerator Initialize()
@@ -144,5 +153,54 @@ public class InGameManager : MonoBehaviour
     {
         gameStartPanel.Setup(MyChar.chardata.code);
         skillPanel.Setup(MyChar.chardata.code);
+    }
+
+
+    [PunRPC]
+    public void GameEnd()
+    {
+        gameEndPanel.SetActive(true);
+        gameEndPanel.transform.GetChild(0).GetComponent<Text>().text = Winner.gameObject.transform.GetChild(1).GetChild(0)
+                                                                        .GetComponent<TextMeshProUGUI>().text + " Win!!";
+        // game end panel
+    }
+
+    public void SomeOneDied(CharacterCtrl DiedChar)
+    {
+        PV.RPC("CycleUpdate", RpcTarget.AllBuffered, DiedChar.chardata.code);
+
+        AllPlayers.Remove(DiedChar);
+
+        if(AllPlayers.Count == 1)
+        {
+            if(PhotonNetwork.IsMasterClient)
+            {
+                Winner = AllPlayers[0];
+                GameEnd();
+            }
+        }
+    }
+
+    [PunRPC]
+    public void CycleUpdate(string deadPlayerSpirit)
+    {
+        Cycle.Remove(deadPlayerSpirit);
+
+        for(int i = 0; i < Cycle.Count; i++)
+        {
+            if (Cycle[i].Equals(MyChar.chardata.code))
+            {
+                if (i == Cycle.Count - 1)
+                    MyChar.target = Cycle[0];
+                else
+                    MyChar.target = Cycle[i + 1];
+            }
+        }
+
+    }
+
+    public void Button_toRoom()
+    {
+        PhotonNetwork.LoadLevel(2);
     }
 }

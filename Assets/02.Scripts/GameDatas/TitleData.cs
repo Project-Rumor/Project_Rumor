@@ -14,7 +14,7 @@ public class TitleData : Singleton<TitleData>
     {
         LoadCharData("CharData");
         LoadInteractData("InteractData");
-        LoadInteractData("DefineData");
+        LoadDefineData("DefineData");
     }
 
     void LoadCharData(string _path)

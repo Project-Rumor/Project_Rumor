@@ -48,6 +48,8 @@ MonoBehaviour:
   - InitializeCycle
   - CharCreated
   - InitializeName
+  - GameEnd
+  - CycleUpdate
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
