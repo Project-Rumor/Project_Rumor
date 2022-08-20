@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using DG.Tweening;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using TMPro;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
@@ -22,6 +23,12 @@ public class RoomManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        SoundManager.instance.PlayBGM("Room");
+
+        GameObject go = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+
+        go.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = PhotonNetwork.NickName;
+
         readyPlayerCnt = 1;
         isready = false;
 
@@ -129,5 +136,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         SceneManager.LoadScene("Scene_01_Lobby");
+    }
+
+    public void Btn_mouseOver()
+    {
+        SoundManager.instance.PlaySFX("BtnOverlap");
+    }
+
+    public void Btn_Clicked()
+    {
+        SoundManager.instance.PlaySFX("BtnClick");
     }
 }

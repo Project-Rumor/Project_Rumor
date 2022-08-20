@@ -212,4 +212,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Debug.Log("Failed Join Room Random");
     }
     //
+
+    public void Btn_mouseOver()
+    {
+        SoundManager.instance.PlaySFX("BtnOverlap");
+    }
+    
+    public void Btn_Clicked()
+    {
+        SoundManager.instance.PlaySFX("BtnClick");
+    }
 }

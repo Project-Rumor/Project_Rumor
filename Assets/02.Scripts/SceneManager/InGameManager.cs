@@ -252,4 +252,14 @@ public class InGameManager : Singleton<InGameManager>
     {
         PhotonNetwork.LoadLevel(2);
     }
+
+    public void Btn_mouseOver()
+    {
+        SoundManager.instance.PlaySFX("BtnOverlap");
+    }
+
+    public void Btn_Clicked()
+    {
+        SoundManager.instance.PlaySFX("BtnClick");
+    }
 }
