@@ -85,9 +85,14 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
     {
         GameObject otherPlayer = GetNearestPlayer(attackRange);
 
+        Debug.Log("Kill : " + otherPlayer.name);
+
         if (otherPlayer != null)
         {
-            otherPlayer.GetComponent<CharacterCtrl>().Die();
+            if (otherPlayer.GetComponent<CharacterCtrl>().chardata.code == target)
+            {
+                otherPlayer.GetComponent<CharacterCtrl>().Die();
+            }
         }
     }
 
@@ -98,11 +103,13 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
 
     public virtual void ActiveSkill()
     {
-        GetComponent<Ability>().Active();
+        //GetComponent<Ability>().Active();
     }
 
     public virtual void Die()
     {
+        InGameManager.instance.SomeOneDied(this);
+
         PV.RPC("DestroyPlayer", RpcTarget.AllBuffered);
     }
 
@@ -114,7 +121,7 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void DestroyPlayer()
+    public void DestroyPlayer()
     {
         Destroy(this.gameObject);
     }

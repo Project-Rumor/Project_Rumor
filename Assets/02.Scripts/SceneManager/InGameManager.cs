@@ -7,8 +7,9 @@ using System.Threading;
 using TMPro;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.Rendering.LookDev;
+using UnityEngine.UI;
 
-public class InGameManager : MonoBehaviour
+public class InGameManager : Singleton<InGameManager>
 {
     [SerializeField] CreatePlayer createPlayer;
     [SerializeField] GameStartPanel gameStartPanel;
@@ -19,6 +20,7 @@ public class InGameManager : MonoBehaviour
     [SerializeField] GameObject LightPrefab;
 
     CharacterCtrl MyChar;
+    CharacterCtrl Winner;
 
     List<string> charCodeList = new List<string>();
     List<CharacterCtrl> AllPlayers = new List<CharacterCtrl>();
@@ -158,9 +160,26 @@ public class InGameManager : MonoBehaviour
     public void GameEnd()
     {
         gameEndPanel.SetActive(true);
+        gameEndPanel.transform.GetChild(0).GetComponent<Text>().text = Winner.gameObject.transform.GetChild(1).GetChild(0)
+                                                                        .GetComponent<TextMeshProUGUI>().text + " Win!!";
         // game end panel
     }
 
+    public void SomeOneDied(CharacterCtrl DiedChar)
+    {
+        PV.RPC("CycleUpdate", RpcTarget.AllBuffered, DiedChar.chardata.code);
+
+        AllPlayers.Remove(DiedChar);
+
+        if(AllPlayers.Count == 1)
+        {
+            if(PhotonNetwork.IsMasterClient)
+            {
+                Winner = AllPlayers[0];
+                GameEnd();
+            }
+        }
+    }
 
     [PunRPC]
     public void CycleUpdate(string deadPlayerSpirit)
@@ -176,7 +195,8 @@ public class InGameManager : MonoBehaviour
                 else
                     MyChar.target = Cycle[i + 1];
             }
-        }    
+        }
+
     }
 
     public void Button_toRoom()
