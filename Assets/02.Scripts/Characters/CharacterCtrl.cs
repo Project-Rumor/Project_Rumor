@@ -8,7 +8,7 @@ using UnityEngine.Experimental.Rendering.Universal;
 public class CharacterCtrl : MonoBehaviourPunCallbacks
 {
     [SerializeField]
-    float moveSpeed = 10.0f;
+    public float moveSpeed = 10.0f;
     float hAxis = 0.0f;
     float vAxis = 0.0f;
 
@@ -23,7 +23,7 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
     public Animator Anim;
     public Animator ColorAnim;
 
-    public float AttackRange = 5.0f;
+    public float attackRange = 5.0f;
 
     protected virtual void Start()
     {
@@ -48,6 +48,11 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Kill();
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                ActiveSkill();
             }
         }
     }
@@ -78,7 +83,7 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
 
     public virtual void Kill()
     {
-        GameObject otherPlayer = GetNearestPlayer(AttackRange);
+        GameObject otherPlayer = GetNearestPlayer(attackRange);
 
         if (otherPlayer != null)
         {
@@ -93,7 +98,7 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
 
     public virtual void ActiveSkill()
     {
-
+        GetComponent<Ability>().Active();
     }
 
     public virtual void Die()
