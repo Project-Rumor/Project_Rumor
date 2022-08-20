@@ -65,6 +65,9 @@ public class CharData
     public float sight;
     public float range;
     public float ability;
+    public string name;
+    public string abilityName;
+    public string ablityDescription;
     public string resource;
     public float skillvalue1;
     public float skillvalue2;

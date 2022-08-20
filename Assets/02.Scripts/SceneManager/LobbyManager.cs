@@ -19,7 +19,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        Setup();
+        if (GameData.instance.isTitle)
+        {
+            PhotonNetwork.JoinLobby();
+            GameData.instance.isTitle = false;
+        }
     }
 
     void Setup()
@@ -127,6 +131,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnJoinedLobby()
+    {
+        Setup();
     }
 
     public override void OnDisconnected(DisconnectCause cause)

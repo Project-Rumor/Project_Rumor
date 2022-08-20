@@ -11,6 +11,8 @@ public class InGameManager : MonoBehaviour
 {
     [SerializeField] CreatePlayer createPlayer;
     [SerializeField] GameStartPanel gameStartPanel;
+    [SerializeField] SkillPanel skillPanel;
+
     [SerializeField] PhotonView PV;
     [SerializeField] GameObject LightPrefab;
 
@@ -33,8 +35,6 @@ public class InGameManager : MonoBehaviour
         {
             StartCoroutine(Initialize());
         }
-
-        gameStartPanel.Setup(MyChar.chardata.code);
 
         //printInfoToError();
     }
@@ -70,6 +70,8 @@ public class InGameManager : MonoBehaviour
 
             PV.RPC("InitializeName", RpcTarget.AllBuffered, PhotonViewID, i);
         }
+
+        PV.RPC("GameStart", RpcTarget.AllBuffered);
     }
 
     [ContextMenu("cycle Info")]
@@ -135,5 +137,12 @@ public class InGameManager : MonoBehaviour
     public void InitializeName(int viewID, int playerIndex)
     {
         PhotonView.Find(viewID).gameObject.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = PhotonNetwork.PlayerList[playerIndex].NickName;
+    }
+
+    [PunRPC]
+    public void GameStart()
+    {
+        gameStartPanel.Setup(MyChar.chardata.code);
+        skillPanel.Setup(MyChar.chardata.code);
     }
 }

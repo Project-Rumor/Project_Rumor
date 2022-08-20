@@ -56,18 +56,21 @@ public class TitleManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LocalPlayer.NickName = nickInput.text;
 
-        PhotonNetwork.JoinLobby();
-    }
-
-    public override void OnJoinedLobby()
-    {
+        //PhotonNetwork.JoinLobby();
         StartCoroutine("LoadingCo");
     }
+
+    //public override void OnJoinedLobby()
+    //{
+    //    StartCoroutine("LoadingCo");
+    //}
     //
 
     IEnumerator LoadingCo()
     {
-        yield return new WaitForSeconds(3f);
+        GameData.instance.isTitle = true;
+
+        yield return new WaitForSeconds(1f);
 
         NetworkManager.instance.MoveScene(1);
     }

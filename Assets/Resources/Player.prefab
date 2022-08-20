@@ -323,6 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
+  Sight: {fileID: 0}
   chardata:
     code: 
     speed: 0
@@ -330,6 +331,9 @@ MonoBehaviour:
     sight: 0
     range: 0
     ability: 0
+    name: 
+    abilityName: 
+    ablityDescription: 
     resource: 
     skillvalue1: 0
     skillvalue2: 0
