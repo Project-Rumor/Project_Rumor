@@ -15,6 +15,9 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
 
     public PhotonView PV;
     public SpriteRenderer SR;
+    public SpriteRenderer CSR;
+    public Animator Anim;
+    public Animator ColorAnim;
 
     public float AttackRange = 5.0f;
 
@@ -24,6 +27,7 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
 
         PV = GetComponent<PhotonView>();
         SR = GetComponent<SpriteRenderer>();
+        Anim = GetComponent<Animator>();
     }
 
     public void Setup(string _code)
@@ -54,6 +58,17 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
         if (hAxis != 0)
         {
             PV.RPC("FilpXRPC", RpcTarget.AllBuffered, hAxis);
+        }
+
+        if (hAxis !=0 || vAxis != 0)
+        {
+            Anim.SetBool("IsMove", true);
+            ColorAnim.SetBool("IsMove", true);
+        }
+        else
+        {
+            Anim.SetBool("IsMove", false);
+            ColorAnim.SetBool("IsMove", false);
         }
     }
 
@@ -86,6 +101,7 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
     void FilpXRPC(float axis)
     {
         SR.flipX = (axis == -1);
+        CSR.flipX = (axis == -1);
     }
 
     [PunRPC]
