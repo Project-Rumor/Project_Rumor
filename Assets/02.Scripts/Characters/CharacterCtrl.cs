@@ -108,7 +108,7 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
 
         if(clue != null)
         {
-            InGameManager.instance.GetClue(clue);
+            clue.GetComponent<Clue>().Interactive();
         }
     }
 

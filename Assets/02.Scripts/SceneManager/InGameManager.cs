@@ -14,6 +14,7 @@ public class InGameManager : Singleton<InGameManager>
     [SerializeField] GameStartPanel gameStartPanel;
     [SerializeField] GameObject gameEndPanel;
     [SerializeField] SkillPanel skillPanel;
+    [SerializeField] CyclePanel cyclePanel;
 
     [SerializeField] PhotonView PV;
     [SerializeField] GameObject LightPrefab;
@@ -21,8 +22,10 @@ public class InGameManager : Singleton<InGameManager>
     [SerializeField] GameObject Notice;
     [SerializeField] GameObject CluePanel;
     [SerializeField] GameObject Clue;
-    [SerializeField] List<Transform> CluePositions = new List<Transform>();
-    [SerializeField] List<string> CluePositionDescription = new List<string>();
+    [SerializeField] List<Clue> AllClues;
+    [SerializeField] List<string> ClueDescription = new List<string>();
+
+    [SerializeField] Cinemachine.CinemachineVirtualCamera CV;
 
     CharacterCtrl MyChar;
     CharacterCtrl Winner;
@@ -31,7 +34,7 @@ public class InGameManager : Singleton<InGameManager>
     List<CharacterCtrl> AllPlayers = new List<CharacterCtrl>();
 
     public string[] SpiritName = { "Char_Gumiho", "Char_Doggebi", "Char_Reaper", "Char_Dark", "Char_Dungapjwi", "Char_Emugi" };
-    List<string> Cycle = new List<string>();
+    public List<string> Cycle = new List<string>();
     List<string> CycleTmp = new List<string>();
 
     void Start()
@@ -41,6 +44,8 @@ public class InGameManager : Singleton<InGameManager>
         MyChar = createPlayer.Create(PhotonNetwork.LocalPlayer.ActorNumber);
 
         MyChar.Sight = Instantiate(LightPrefab, MyChar.gameObject.transform).transform.GetChild(0).GetComponent<Light2D>();
+
+        CV.Follow = MyChar.gameObject.transform;
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -79,7 +84,13 @@ public class InGameManager : Singleton<InGameManager>
             PV.RPC("InitializeChar", RpcTarget.AllBuffered, PhotonViewID, charCodeList[i]);
 
             PV.RPC("InitializeName", RpcTarget.AllBuffered, PhotonViewID, i);
+
+            string _clueInfo = PhotonNetwork.PlayerList[i].NickName + "의 혼은 " + TitleData.instance.charDatas[charCodeList[i]].name + "입니다.";
+
+            PV.RPC("InitializeClueInfo", RpcTarget.AllBuffered, AllClues[i].gameObject.GetPhotonView().ViewID, _clueInfo);
         }
+
+        PV.RPC("InitializeCyclePanel", RpcTarget.AllBuffered);
 
         PV.RPC("GameStart", RpcTarget.AllBuffered);
     }
@@ -129,9 +140,22 @@ public class InGameManager : Singleton<InGameManager>
     }
 
     [PunRPC]
+    public void InitializeClueInfo(int viewID, string _clueInfo)
+    {
+        PhotonView.Find(viewID).GetComponent<Clue>().clueInfo = _clueInfo;
+    }
+
+
+    [PunRPC]
     public void InitializeCycle(string _cycle)
     {
         Cycle.Add(_cycle);
+    }
+
+    [PunRPC]
+    public void InitializeCyclePanel()
+    {
+        cyclePanel.InitializeCycle();
     }
 
     [PunRPC]
@@ -155,40 +179,6 @@ public class InGameManager : Singleton<InGameManager>
     {
         gameStartPanel.Setup(MyChar.chardata.code);
         skillPanel.Setup(MyChar.chardata.code);
-
-        if(PhotonNetwork.IsMasterClient)
-        {
-            //StartCoroutine(RandomTimeClueCreate());
-        }
-    }
-
-    IEnumerator RandomTimeClueCreate()
-    {
-        float currTime = Time.time;
-
-        float respawnMin = TitleData.instance.defineDatas["Room_Min"].value;
-        float respawnMax = TitleData.instance.defineDatas["Room_Max"].value;
-
-        float targetTime = currTime + Random.Range(respawnMin, respawnMax);
-
-        while(Time.time < targetTime)
-        {
-            yield return new WaitForSeconds(1f);
-        }
-
-        int randPosidx = Random.Range(0, CluePositions.Count);
-
-        GameObject c = PhotonNetwork.Instantiate("Clue", CluePositions[randPosidx].position, Quaternion.identity);
-
-        Notice.SetActive(true);
-
-        Notice.GetComponent<TextMeshProUGUI>().text = CluePositionDescription[randPosidx] + "에 단서가 떨어졌습니다.";
-
-        Notice.GetComponent<TextMeshProUGUI>().DOFade(0, 2.0f).SetEase(Ease.Linear).OnComplete(() => {
-            Notice.SetActive(false);
-
-            StartCoroutine(RandomTimeClueCreate());
-        });
     }
 
 
@@ -218,16 +208,6 @@ public class InGameManager : Singleton<InGameManager>
                 GameEnd();
             }
         }
-    }
-
-    public void GetClue(GameObject _clue)
-    {
-        CluePanel.SetActive(true);
-    }
-
-    public void CloseCluePanel()
-    {
-        CluePanel.SetActive(false);
     }
 
     [PunRPC]

@@ -9,6 +9,7 @@ public enum InGameUIState
     Exit,
     Guide,
     Map,
+    Cycle
 }
 
 public class InGameUICtrl : MonoBehaviour
@@ -18,6 +19,7 @@ public class InGameUICtrl : MonoBehaviour
     [SerializeField] GuidePanel guidePanel;
     [SerializeField] ExitPanel exitPanel;
     [SerializeField] MapPanel mapPanel;
+    [SerializeField] CyclePanel cyclePanel;
 
     void Update()
     {
@@ -36,6 +38,11 @@ public class InGameUICtrl : MonoBehaviour
                 {
                     guidePanel.OpenPanel();
                     inGameUIState = InGameUIState.Guide;
+                }
+                if(Input.GetKeyDown(KeyCode.E))
+                {
+                    cyclePanel.OpenPanel();
+                    inGameUIState = InGameUIState.Cycle;
                 }
                 if (Input.GetKeyDown(KeyCode.Tab))
                 {
@@ -64,6 +71,13 @@ public class InGameUICtrl : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Tab))
                 {
                     mapPanel.ClosePanel();
+                    inGameUIState = InGameUIState.Play;
+                }
+                break;
+            case InGameUIState.Cycle:
+                if(Input.GetKeyDown(KeyCode.E))
+                {
+                    cyclePanel.ClosePanel();
                     inGameUIState = InGameUIState.Play;
                 }
                 break;
