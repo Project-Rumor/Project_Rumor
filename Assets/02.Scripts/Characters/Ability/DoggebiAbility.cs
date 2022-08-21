@@ -10,6 +10,7 @@ public class DoggebiAbility : Ability
 
     public override void Active()
     {
+        SoundManager.instance.PlaySFX("Dokkabi");
         StartCoroutine(AbilityOn());
     }
 

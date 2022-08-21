@@ -9,6 +9,7 @@ public class DarkAbility : Ability
     public override void Active()
     {
         Debug.Log("Dark!");
+        SoundManager.instance.PlaySFX("Dark");
         CC.PV.RPC("DecreseSight", RpcTarget.OthersBuffered);
     }
 

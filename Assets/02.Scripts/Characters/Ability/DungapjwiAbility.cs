@@ -2,17 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DungapjwiAbility : MonoBehaviour
+public class DungapjwiAbility : Ability
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Active()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        SoundManager.instance.PlaySFX("Rat");
     }
 }

@@ -9,6 +9,7 @@ public class ReaperAbility : Ability
 {
     public void ReaperPassive()
     {
+        SoundManager.instance.PlaySFX("Reaper");
         CC.PV.RPC("IncreaseStat", RpcTarget.AllBuffered);
     }
     

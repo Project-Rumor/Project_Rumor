@@ -6,5 +6,6 @@ public class GumihoAbility : Ability
 {
     public override void Active()
     {
+        SoundManager.instance.PlaySFX("Gumiho");
     }
 }

@@ -22,6 +22,7 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
     public SpriteRenderer CSR;
     public Animator Anim;
     public Animator ColorAnim;
+    public SkillPanel skillPanel;
 
     public float attackRange = 5.0f;
     int reverse = 1;
@@ -33,6 +34,7 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
         PV = GetComponent<PhotonView>();
         SR = GetComponent<SpriteRenderer>();
         Anim = GetComponent<Animator>();
+        skillPanel = GameObject.Find("Panel_Skill").GetComponent<SkillPanel>();
     }
 
     public void Setup(string _code)
@@ -89,9 +91,10 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
 
     public virtual void Kill()
     {
-        GameObject otherPlayer = GetNearestPlayer(attackRange);
+        if (skillPanel.KillAction() == false)
+            return;
 
-        Debug.Log("Kill : " + otherPlayer.name);
+        GameObject otherPlayer = GetNearestPlayer(attackRange);
 
         if (otherPlayer != null)
         {
@@ -145,6 +148,9 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
 
     public virtual void ActiveSkill()
     {
+        if (skillPanel.SkillAction() == false)
+            return;
+
         GetComponent<Ability>().Active();
     }
 

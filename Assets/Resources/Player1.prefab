@@ -346,6 +346,7 @@ MonoBehaviour:
   CSR: {fileID: 1846049509340560061}
   Anim: {fileID: 0}
   ColorAnim: {fileID: 6931096330056220826}
+  skillPanel: {fileID: 0}
   attackRange: 5
 --- !u!95 &-2450183065972749480
 Animator:

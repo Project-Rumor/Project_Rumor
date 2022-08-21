@@ -9,6 +9,7 @@ public class EmugiAbility : Ability
     public override void Active()
     {
         Debug.Log("유령 작전 개시");
+        SoundManager.instance.PlaySFX("Dragon");
         CC.PV.RPC("StartGhost", RpcTarget.AllBuffered);
     }
 
