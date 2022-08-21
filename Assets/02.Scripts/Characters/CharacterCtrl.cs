@@ -97,7 +97,13 @@ public class CharacterCtrl : MonoBehaviourPunCallbacks
         {
             if (otherPlayer.GetComponent<CharacterCtrl>().chardata.code == target)
             {
+                SoundManager.instance.PlaySFX("Kill");
                 otherPlayer.GetComponent<CharacterCtrl>().Die();
+
+                if (chardata.resource == "Reaper")
+                {
+                    GetComponent<ReaperAbility>().ReaperPassive();
+                }
             }
         }
     }

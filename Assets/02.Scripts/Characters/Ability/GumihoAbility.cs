@@ -6,6 +6,5 @@ public class GumihoAbility : Ability
 {
     public override void Active()
     {
-
     }
 }

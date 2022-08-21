@@ -1,12 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Realtime;
+using Photon.Pun;
 
 public class EmugiAbility : Ability
 {
     public override void Active()
     {
         Debug.Log("유령 작전 개시");
+        CC.PV.RPC("StartGhost", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void StartGhost()
+    {
         StartCoroutine(GhostMode());
     }
 
