@@ -27,7 +27,7 @@ public class InGameManager : Singleton<InGameManager>
 
     [SerializeField] Cinemachine.CinemachineVirtualCamera CV;
 
-    CharacterCtrl MyChar;
+    public CharacterCtrl MyChar;
     CharacterCtrl Winner;
 
     List<string> charCodeList = new List<string>();
@@ -199,8 +199,8 @@ public class InGameManager : Singleton<InGameManager>
     public void GameEnd()
     {
         gameEndPanel.SetActive(true);
-        gameEndPanel.transform.GetChild(0).GetComponent<Text>().text = Winner.gameObject.transform.GetChild(1).GetChild(0)
-                                                                        .GetComponent<TextMeshProUGUI>().text + " Win!!";
+        gameEndPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "승자는.." + Winner.gameObject.transform.GetChild(1).GetChild(0)
+                                                                        .GetComponent<TextMeshProUGUI>().text + " !!";
 
         SoundManager.instance.StopBGM();
         SoundManager.instance.PlaySFX("Win");
@@ -239,6 +239,7 @@ public class InGameManager : Singleton<InGameManager>
             }
         }
 
+        cyclePanel.UpdateTarget();
     }
 
     public void Button_toRoom()

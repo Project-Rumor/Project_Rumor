@@ -18,7 +18,7 @@ public class NetworkManager1 : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        Screen.SetResolution(960, 540, false);
+        Screen.SetResolution(1920, 1080, false);
 
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.AutomaticallySyncScene = true;

@@ -59,7 +59,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             if (readyPlayerCnt == PhotonNetwork.CurrentRoom.PlayerCount)
             {
@@ -81,9 +81,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         int cnt = 0;
 
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
-            foreach(var photonPlayer in PhotonNetwork.PlayerList)
+            foreach (var photonPlayer in PhotonNetwork.PlayerList)
             {
                 if ((bool)photonPlayer.CustomProperties["PlayerReady"])
                     cnt++;
@@ -118,14 +118,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public void ReadyStatusChange(bool readyStatus)
     {
         Debug.Log("Recived RPC");
-
-        if(PhotonNetwork.IsMasterClient)
-        {
-            if (readyStatus)
-                readyPlayerCnt++;
-            else
-                readyPlayerCnt--;
-        }
+        if (readyStatus)
+            readyPlayerCnt++;
+        else
+            readyPlayerCnt--;
     }
 
     public void Button_LeaveRoom()
