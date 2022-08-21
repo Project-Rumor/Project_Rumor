@@ -166,6 +166,19 @@ public class InGameManager : Singleton<InGameManager>
         int idx = Cycle.FindIndex(x => x == _code);
 
         PhotonView.Find(viewID).GetComponent<CharacterCtrl>().target = idx == PhotonNetwork.CurrentRoom.PlayerCount - 1 ? Cycle[0] : Cycle[idx + 1];
+
+        if (_code == "Char_Gumiho")
+            PhotonView.Find(viewID).gameObject.AddComponent<GumihoAbility>();
+        else if (_code == "Char_Doggebi")
+            PhotonView.Find(viewID).gameObject.AddComponent<DoggebiAbility>();
+        else if (_code == "Char_Reaper")
+            PhotonView.Find(viewID).gameObject.AddComponent<ReaperAbility>();
+        else if (_code == "Char_Dark")
+            PhotonView.Find(viewID).gameObject.AddComponent<DarkAbility>();
+        else if (_code == "Char_Dungapjwi")
+            PhotonView.Find(viewID).gameObject.AddComponent<DungapjwiAbility>();
+        else if (_code == "Char_Emugi")
+            PhotonView.Find(viewID).gameObject.AddComponent<EmugiAbility>();
     }
 
     [PunRPC]

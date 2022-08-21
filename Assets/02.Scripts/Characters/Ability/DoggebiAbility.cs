@@ -10,10 +10,7 @@ public class DoggebiAbility : Ability
 
     public override void Active()
     {
-    }
-    void Update()
-    {
-        CC.SR.color = new Color(CC.SR.color.r, CC.SR.color.g, CC.SR.color.b, 0.5f);
+        StartCoroutine(AbilityOn());
     }
 
     IEnumerator AbilityOn()
@@ -25,11 +22,18 @@ public class DoggebiAbility : Ability
 
         isAbilityOn = false;
         CC.SR.color = new Color(CC.SR.color.r, CC.SR.color.g, CC.SR.color.b, 1.0f);
+        CC.PV.RPC("StealthEnd", RpcTarget.Others);
     }
 
     [PunRPC]
     void Stealth()
     {
         CC.SR.color = new Color(CC.SR.color.r, CC.SR.color.g, CC.SR.color.b, 0.0f);
+    }
+
+    [PunRPC]
+    void StealthEnd()
+    {
+        CC.SR.color = new Color(CC.SR.color.r, CC.SR.color.g, CC.SR.color.b, 1.0f);
     }
 }
